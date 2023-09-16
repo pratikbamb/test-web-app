@@ -1,0 +1,10 @@
+.back-btn {
+  background-color: transparent;
+  color: #009cdf;
+  border: none;
+}
+
+.back-btn:focus,
+.back-btn:hover {
+  outline: none;
+}

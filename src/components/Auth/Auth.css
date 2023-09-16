@@ -1,0 +1,64 @@
+.page-body {
+  padding: 35px 0 20px 0;
+}
+
+.inputText {
+  background: white;
+  border-radius: 50px;
+  border: 1px solid gray;
+  color: black;
+  height: 50px;
+  text-align: center;
+  width: 100%;
+}
+
+.passwordless-login-button {
+  background-color: #009cdf;
+  border-radius: 50px;
+  color: white;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.or-wrapper {
+  color: gray;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.login-button {
+  border-radius: 50px;
+  width: 100%;
+}
+
+.login-button>div {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+}
+
+.login-button .icon {
+  padding-right: 10px;
+  width: 40px;
+}
+
+.login-button .text {
+  text-align: center;
+  /* width: 100%; */
+}
+
+.form-row {
+  margin-top: 20px;
+}
+
+#google-login-button {
+  background-color: white;
+  color: black;
+  border: 1px solid gray;
+}
+
+#twitter-login-button {
+  background-color: #19b8eb;
+  color: white;
+}

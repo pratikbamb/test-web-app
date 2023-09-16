@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://auth.digico.onebyzero.ai/js/prime-min-1.6.4.js?version=1.47.1"></script>
+  <script src="https://auth.digico.onebyzero.ai/js/oauth2/Authorize.js?version=1.47.1"></script>
+  <script src="https://auth.digico.onebyzero.ai/js/identityProvider/InProgress.js?version=1.47.1"></script>
+  <script src="https://auth.digico.onebyzero.ai/js/identityProvider/Helper.js?version=1.47.1"></script>
+
+  <script type="text/javascript">
+    var FusionAuth = FusionAuth || {};
+    FusionAuth.IdentityProvider.Redirect = function () {
+      Prime.Utils.bindAll(this);
+      Prime.Document.addDelegatedEventListener('click', '[data-login-method="UseRedirect"]', this._handleLoginClick);
+
+      // For backwards compatibility add linkedin, openid, and samlv2 if they weren't matched by the data-login-method
+      ['.linkedin', '.openid', '.samlv2'].forEach(function (cls) {
+        var selector = cls + '.login-button';
+        var element = Prime.Document.queryFirst(selector);
+        if (element && !element.is('[data-login-method="UseRedirect"]')) {
+          Prime.Document.addDelegatedEventListener('click', selector, this._handleLoginClick);
+        }
+      }, this);
+    };
+
+    FusionAuth.IdentityProvider.Redirect.constructor = FusionAuth.IdentityProvider.Redirect;
+    FusionAuth.IdentityProvider.Redirect.prototype = {
+
+      /* ===================================================================================================================
+      * Private methods
+      * ===================================================================================================================*/
+
+      _handleLoginClick: function (event, target) {
+        Prime.Utils.stopEvent(event);
+
+        if (FusionAuth.IdentityProvider.InProgress) {
+          FusionAuth.IdentityProvider.InProgress.open();
+        }
+
+        var button = new Prime.Document.Element(target);
+        var identityProviderId = button.getDataAttribute('identityProviderId');
+        var state = FusionAuth.IdentityProvider.Helper.captureState({
+          identityProviderId: button.getDataAttribute('identityProviderId')
+        });
+
+        window.location.href = 'https://auth.digico.onebyzero.ai/oauth2/redirect'
+          + '?client_id=' + Prime.Document.queryFirst('input[name=client_id]').getValue()
+          + '&identityProviderId=' + identityProviderId
+          + '&state=' + state;
+      }
+    };
+
+    Prime.Document.onReady(function () {
+      FusionAuth.IdentityProvider.Redirect.instance = new FusionAuth.IdentityProvider.Redirect();
+    });
+  </script>
+  <script type="text/javascript">
+    var FusionAuth = FusionAuth || {};
+    FusionAuth.IdentityProvider.Twitter = function () {
+      Prime.Utils.bindAll(this);
+
+      Prime.Document.onReady(function () {
+        this.button = Prime.Document.queryById('twitter-login-button');
+        Prime.Document.addDelegatedEventListener('click', '#twitter-login-button', this._handleLoginClick);
+      }.bind(this));
+    };
+
+    FusionAuth.IdentityProvider.Twitter.constructor = FusionAuth.IdentityProvider.Twitter;
+    FusionAuth.IdentityProvider.Twitter.prototype = {
+
+      /* ===================================================================================================================
+       * Private methods
+       * ===================================================================================================================*/
+
+      _handleLoginClick: function (event) {
+        Prime.Utils.stopEvent(event);
+        if (FusionAuth.IdentityProvider.InProgress) {
+          FusionAuth.IdentityProvider.InProgress.open();
+        }
+
+        var state = FusionAuth.IdentityProvider.Helper.captureState({
+          identityProviderId: '45bb233c-0901-4236-b5ca-ac46e2e0a5a5'
+        });
+
+        var thisScript = FusionAuth.IdentityProvider.Helper.findIdentityProviderScriptByFileName('Twitter.js');
+
+        window.location.href = 'https://auth.digico.onebyzero.ai/oauth1/request-token'
+          + '?state.client_id=' + Prime.Document.queryFirst('input[name=client_id]').getValue()
+          + '&state.state=' + state
+          + '&state.identityProviderId=45bb233c-0901-4236-b5ca-ac46e2e0a5a5';
+      }
+    };
+    FusionAuth.IdentityProvider.Twitter.instance = new FusionAuth.IdentityProvider.Twitter();
+  </script>
+
+  <title>Vite + React</title>
+</head>
+
+<body class="app">
+  <div id="root" style="width: 100%; height: 100vh;"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>
