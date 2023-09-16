@@ -9,11 +9,11 @@ Currently, two official plugins are available:
 
 
 # To run web app locally
-npm i
-npm run dev
+- npm i
+- npm run dev
 
 
 # To deploy image to docker
-docker build --platform=linux/amd64 -t tiwala-test-app:0.0.1 .
-docker tag tiwala-test-app:0.0.1 dockerhubuser/test-web-app:0.0.1
-docker push dockerhubuser/test-web-app:0.0.1
+- docker build --platform=linux/amd64 -t tiwala-test-app:0.0.1 .
+- docker tag tiwala-test-app:0.0.1 dockerhubuser/test-web-app:0.0.1
+- docker push dockerhubuser/test-web-app:0.0.1
